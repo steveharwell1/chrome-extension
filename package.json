@@ -1,0 +1,13 @@
+{
+  "name": "etamu-writers-extension",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {},
+  "dependencies": {
+    "lit-html": "^3.2.1"
+  }
+}
