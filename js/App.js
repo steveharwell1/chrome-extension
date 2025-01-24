@@ -1,11 +1,11 @@
 import {html, render} from '../node_modules/lit-html/lit-html.js';
 import { origin } from "./config.js"
 
-import { Main } from './components/Main.js';
+import { Router } from './components/Router.js';
 console.log({ key: localStorage.getItem('teamworkKey' )})
 export const updateDOM = async (appData) => {
     const contentArea = document.querySelector('body')
-    render(Main(appData), contentArea)
+    render(Router(appData), contentArea)
 }
 const getFormattedKey = () => btoa(localStorage.getItem('teamworkKey') + ":")
 const options = {

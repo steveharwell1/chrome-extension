@@ -6,6 +6,7 @@ export const DiscussionPage = (data) => {
     ${Header(data)}
     <main>
         <h1>Discussion</h1>
+        ${data?.twId ? html`<a href="https://tamuc.teamwork.com/app/tasks/${data?.twId}">Go to Teamwork</a>` : null}
         ${data.teamworkData ? CommentsList(data.teamworkData) : html`<p>Loading....</p>`}
     </main>
     `

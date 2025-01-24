@@ -1,6 +1,6 @@
 const TAMUC_ORIGIN = 'https://www.tamuc.edu';
 import { Store } from "./js/store.js";
-import {updateDOM, getTaskData, getDocumentMetaData, getTaskCommentsJSON} from "./js/router.js"
+import {updateDOM, getDocumentMetaData, getTaskCommentsJSON} from "./js/App.js"
 
 const store = new Store()
 const defaultData = {
@@ -39,6 +39,7 @@ const sendMessage = async (tab) => {
             console.log('sendMessage', {teamworkData})
             store.transformValue((data) => {
                 data.teamworkData = teamworkData
+                data.twId = data.twId
                 return data
             })
         } catch (error) {
