@@ -1,4 +1,4 @@
-const TAMUC_ORIGIN = 'https://www.tamuc.edu';
+const TAMUC_ORIGIN = "https://www.tamuc.edu";
 
 // Allows users to open the side panel by clicking on the action toolbar icon
 chrome.sidePanel
@@ -12,14 +12,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   if (url.origin === TAMUC_ORIGIN) {
     await chrome.sidePanel.setOptions({
       tabId,
-      path: 'index.html',
-      enabled: true
+      path: "index.html",
+      enabled: true,
     });
   } else {
     await chrome.sidePanel.setOptions({
       tabId,
-      enabled: false
+      enabled: false,
     });
   }
 });
-

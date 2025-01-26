@@ -1,16 +1,42 @@
-import { DiscussionPage } from './DiscussionPage.js';
-import { SettingsPage } from './SettingsPage.js';
-import { DetailsPage } from './DetailsPage.js';
-import { NotFoundPage } from './NotFoundPage.js';
+import { html } from "../../node_modules/lit-html/lit-html.js";
+export const Router = class Router {
+  /** @var array */
+  routes = [];
+  default_component = (e) => "Page Not Found";
 
-export const Router = (appData) => {
-    if(appData.currentPage === 'discussion.html') {
-        return DiscussionPage(appData)
-    } else if(appData.currentPage === 'settings.html') {
-        return SettingsPage(appData)
-    } else if(appData.currentPage === 'details.html') {
-        return DetailsPage(appData)  
-    } else {
-        return NotFoundPage(appData)
+  addRoute(name, path, Component) {
+    this.routes.push({ Component, path, name });
+  }
+
+  addDefaultComponent(Component) {
+    this.default_component = Component;
+  }
+
+  View(data) {
+    for (const route of this.routes) {
+      if (route.path === data.currentPage) {
+        return route.Component(data);
+      }
     }
-}
+    return this.default_component(data);
+  }
+
+  Links(data) {
+    const addRouterData = (location) => (data) => {
+      data.currentPage = location;
+      return data;
+    };
+    return this.routes.map(({ path, Component, name }) => {
+      const onClick = (e) => {
+        e.preventDefault();
+        data.store.transformValue(addRouterData(path));
+      };
+      return html`<a
+        ?current-page=${data.currentPage === path ? "page" : null}
+        @click=${onClick}
+        href="${path}"
+        >${name}
+      </a>`;
+    });
+  }
+};

@@ -9,5 +9,8 @@
   "scripts": {},
   "dependencies": {
     "lit-html": "^3.2.1"
+  },
+  "devDependencies": {
+    "prettier": "3.4.2"
   }
 }

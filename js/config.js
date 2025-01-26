@@ -1,1 +1,1 @@
-export const origin = "https://tamuc.teamwork.com"
+export const origin = "https://tamuc.teamwork.com";

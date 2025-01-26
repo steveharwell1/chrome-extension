@@ -1,35 +1,24 @@
 {
-    "manifest_version": 3,
-    "name": "TAMUC Editor's Extension",
-    "description": "Extension for the editors of Marketing and Communications to see project management details relevant to the current web page",
-    "version": "1.0",
-    "background": {
-        "service_worker": "service-worker.js"
-    },
-    "action": {
-        "default_title": "Click to open panel"
-    },
-    "permissions": [
-        "sidePanel",
-        "tabs"
-    ],
-    "host_permissions": [
-        "https://*.teamwork.com/*"
-      ],
-    "side_panel": {
-        "default_path": "index.html"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://www.tamuc.edu/*"
-            ],
-            "css": [
-                "content-styles.css"
-            ],
-            "js": [
-                "content-script.js"
-            ]
-        }
-    ]
+  "manifest_version": 3,
+  "name": "TAMUC Editor's Extension",
+  "description": "Extension for the editors of Marketing and Communications to see project management details relevant to the current web page",
+  "version": "1.0",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "permissions": ["sidePanel", "tabs"],
+  "host_permissions": ["https://*.teamwork.com/*"],
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.tamuc.edu/*"],
+      "css": ["content-styles.css"],
+      "js": ["content-script.js"]
+    }
+  ]
 }
