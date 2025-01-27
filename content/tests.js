@@ -1,11 +1,15 @@
 const tests = [];
-const runTests = function() {
-    return tests.map(func => func());
+const runTests = async function() {
+    return Promise.all(tests.map(func => func()));
 }
 
 function test(title, func) {
-    tests.push(function() {
-        return {title, ...func()}
+    tests.push(async function() {
+        const result = await func();
+        if(!result) {
+            return {title, ...fail('Test exited without declaring pass or fail')}
+        }
+        return {title, ...result}
     })
 }
 
@@ -17,7 +21,7 @@ function fail(message) {
     return {status: 'FAIL', message}
 }
 
-test('Has Meta Description', () => {
+test('Has Meta Description', async () => {
     const elem = document.querySelector('meta[name="description"]')
     if(!elem) {
         return fail('Meta description does not exist.')

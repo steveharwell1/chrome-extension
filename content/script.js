@@ -8,6 +8,7 @@ function usingCommand(command) {
     };
   };
 }
+
 chrome.runtime.onMessage.addListener(
   usingCommand("hello")(function (request, sender, sendResponse) {
     if(location.href.includes('post.php?post='))
@@ -41,6 +42,7 @@ function convertType(str)
   }
   return chart?.[str]
 }
+
 chrome.runtime.onMessage.addListener(
   usingCommand("hello")(function (request, sender, sendResponse) {
     const apiLink = document.querySelector(
@@ -54,7 +56,19 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onMessage.addListener(
   usingCommand("test")(function (request, sender, sendResponse) {
     console.log("running tests");
-    const result = runTests();
-   sendResponse(result);
+    runTests().then(result => {
+      sendResponse(result)
+    })
+   return true;
+  }),
+);
+
+
+chrome.runtime.onMessage.addListener(
+  usingCommand("detail")(function (request, sender, sendResponse) {
+    runDetails().then(result => {
+      sendResponse(result)
+    })
+   return true;
   }),
 );

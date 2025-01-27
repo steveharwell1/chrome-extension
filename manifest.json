@@ -19,6 +19,7 @@
       "matches": ["https://www.tamuc.edu/*"],
       "css": ["content/styles.css"],
       "js": [
+        "content/details.js",
           "content/tests.js",
           "content/script.js"
       ]

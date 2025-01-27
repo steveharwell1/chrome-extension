@@ -1,5 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { CommentsList } from "./CommentsList.js";
+import { CommentsList } from "./discussion/CommentsList.js";
 import { Header } from "./Header.js";
 import { addMessageToTask, getTaskCommentsJSON } from '../NetworkHelpers.js';
 export const DiscussionPage = (data) => {

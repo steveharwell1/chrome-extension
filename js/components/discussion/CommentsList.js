@@ -1,4 +1,4 @@
-import { html } from "../../node_modules/lit-html/lit-html.js";
+import { html } from "../../../node_modules/lit-html/lit-html.js";
 import { CommentItem } from "./CommentItem.js";
 export const CommentsList = (data) => {
     console.log({data})
