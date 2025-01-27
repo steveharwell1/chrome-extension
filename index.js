@@ -1,4 +1,4 @@
-const TAMUC_ORIGIN = "https://www.tamuc.edu";
+import { TAMUC_ORIGIN } from './js/config.js';
 import { Store } from "./js/store.js";
 
 import { updateDOM } from "./js/App.js";
@@ -6,7 +6,7 @@ import {
   getTaskCommentsJSON,
   getDocumentMetaData,
 } from "./js/NetworkHelpers.js";
-
+import { filterTabsAndOrigin, sendMessageHandler } from './js/MessageHelpers.js';
 import { Router } from "./js/components/Router.js";
 import { DiscussionPage } from "./js/components/DiscussionPage.js";
 import { SettingsPage } from "./js/components/SettingsPage.js";
@@ -32,13 +32,7 @@ store.setValue(defaultData);
 updateDOM(defaultData);
 store.onUpdate(updateDOM);
 
-const sendMessage = async (tab) => {
-  if (!tab?.url) return;
-
-  const url = new URL(tab.url);
-  if (url.origin !== TAMUC_ORIGIN) {
-    return;
-  }
+const startupMessage = async (tab) => {
   // Enables the side panel on google.com
   let apiURL;
   let twId;
@@ -74,23 +68,13 @@ const sendMessage = async (tab) => {
   }
 };
 
-const sendMessageHandler = async () => {
-  try {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      lastFocusedWindow: true,
-    });
-    sendMessage(tab);
-  } catch (error) {
-    console.log("error trying to get active tab", { error });
-  }
-};
-sendMessageHandler();
+const sendStartupMessage = sendMessageHandler(filterTabsAndOrigin(startupMessage));
 
+sendStartupMessage()
 chrome.tabs.onUpdated.addListener(async () => {
-  sendMessageHandler();
+  sendStartupMessage();
 });
 
 chrome.tabs.onActivated.addListener(async () => {
-  sendMessageHandler();
+  sendStartupMessage();
 });

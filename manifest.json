@@ -17,8 +17,11 @@
   "content_scripts": [
     {
       "matches": ["https://www.tamuc.edu/*"],
-      "css": ["content-styles.css"],
-      "js": ["content-script.js"]
+      "css": ["content/styles.css"],
+      "js": [
+          "content/tests.js",
+          "content/script.js"
+      ]
     }
   ]
 }

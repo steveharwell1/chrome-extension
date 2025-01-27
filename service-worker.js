@@ -1,3 +1,4 @@
+// Redefining this since I can't import as a module
 const TAMUC_ORIGIN = "https://www.tamuc.edu";
 
 // Allows users to open the side panel by clicking on the action toolbar icon
