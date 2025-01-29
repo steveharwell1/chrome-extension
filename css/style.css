@@ -1,0 +1,24 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+nav {
+    display: flex;
+    gap: .5rem
+}
+
+[aria-current="page"] {
+    font-weight: bold;
+}
+
+img {
+    max-width: 100%
+}
+
+.feedback-item__marker--passed {
+    color: green;
+}
+
+.feedback-item__marker--failed {
+    color: red;
+}

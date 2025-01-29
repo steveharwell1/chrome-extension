@@ -1,6 +1,7 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { Header } from "./Header.js";
 import { filterTabsAndOrigin, sendMessageHandler } from "../MessageHelpers.js";
+import { detailsComponentFactory } from "./details/ComponentFactory.js";
 export const DetailsPage = (data) => {
   const onClick = sendMessageHandler(
     filterTabsAndOrigin(async (tab) => {
@@ -30,14 +31,6 @@ export const DetailsPage = (data) => {
       <h1>Details</h1>
     </main>
     <button @click=${onClick}>Get Details</button>
-    ${data.details
-      ? data.details.map((e) =>
-          e.status == "OK"
-            ? html`<h2>${e.title}</h2>
-                <p>${e.data.content}</p>`
-            : html`<h2>${e.title}</h2>
-                <p>${e.message}</p>`,
-        )
-      : null}
+    ${data.details ? data.details.map(detailsComponentFactory) : null}
   `;
 };
