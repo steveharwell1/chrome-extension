@@ -1,4 +1,4 @@
-import { TAMUC_ORIGIN } from './js/config.js';
+import { TAMUC_ORIGIN } from "./js/config.js";
 import { Store } from "./js/store.js";
 
 import { updateDOM } from "./js/App.js";
@@ -6,7 +6,10 @@ import {
   getTaskCommentsJSON,
   getDocumentMetaData,
 } from "./js/NetworkHelpers.js";
-import { filterTabsAndOrigin, sendMessageHandler } from './js/MessageHelpers.js';
+import {
+  filterTabsAndOrigin,
+  sendMessageHandler,
+} from "./js/MessageHelpers.js";
 import { Router } from "./js/components/Router.js";
 import { DiscussionPage } from "./js/components/DiscussionPage.js";
 import { SettingsPage } from "./js/components/SettingsPage.js";
@@ -22,59 +25,95 @@ router.addRoute("Feedback", "/feedback", FeedbackPage);
 router.addRoute("Settings", "/settings", SettingsPage);
 
 const store = new Store();
-const defaultData = {
-  store,
-  currentPage: "/discussion",
-  teamworkData: null,
-  router,
+
+const getDefaultData = () => {
+  return {
+    store,
+    currentPage: "/discussion",
+    teamworkData: null,
+    router,
+    detail: null,
+    test: null,
+    tabUrl: null,
+  };
 };
-store.setValue(defaultData);
-updateDOM(defaultData);
+
+store.setValue(getDefaultData());
+updateDOM(getDefaultData());
 store.onUpdate(updateDOM);
 
-const startupMessage = async (tab) => {
-  // Enables the side panel on google.com
-  let apiURL;
-  let twId;
+const getApiUrl = async (tab) => {
   try {
-    const { apiURL: tryApiUrl } = await chrome.tabs.sendMessage(tab.id, {
+    const { apiURL } = await chrome.tabs.sendMessage(tab.id, {
       command: "hello",
     });
-    apiURL = tryApiUrl;
+    return apiURL;
   } catch (error) {
     console.log("error trying to get apiURL from tab", { error });
-    return;
+    return null;
   }
+};
+
+const getTeamworkId = async (apiURL) => {
   try {
     const {
-      acf: { teamwork_task_url: twId_temp },
+      acf: { teamwork_task_url },
     } = await getDocumentMetaData(apiURL);
-    twId = twId_temp;
+    return teamwork_task_url;
   } catch (error) {
     console.log("error trying to get twId", { error });
-    return;
+    return null;
   }
+};
+
+const getCommentData = async (twId) => {
   try {
     const teamworkData = await getTaskCommentsJSON(twId);
-    console.log("sendMessage", { teamworkData });
+    return teamworkData;
+  } catch (error) {
+    console.log("error trying to get teamworkData", { error });
+    return null;
+  }
+};
+
+const startupMessage = async (tab) => {
+  const apiURL = await getApiUrl(tab);
+  if (!apiURL) {
+    return;
+  }
+  console.log({ apiURL });
+  const twId = await getTeamworkId(apiURL);
+  if (!twId) {
+    return;
+  }
+  console.log({ twId });
+  const teamworkData = await getCommentData(twId);
+  console.log({ teamworkData });
+  if (teamworkData) {
     store.transformValue((data) => {
       data.teamworkData = teamworkData;
       data.twId = twId;
+      data.tabUrl = tab.url;
       return data;
     });
-  } catch (error) {
-    console.log("error trying to get teamworkData", { error });
-    return;
   }
 };
 
-const sendStartupMessage = sendMessageHandler(filterTabsAndOrigin(startupMessage));
+const sendStartupMessage = sendMessageHandler(
+  filterTabsAndOrigin(startupMessage),
+);
 
-sendStartupMessage()
-chrome.tabs.onUpdated.addListener(async () => {
+sendStartupMessage();
+
+chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+  console.log("Calling from updated");
+  store.setValue(getDefaultData());
   sendStartupMessage();
 });
 
-chrome.tabs.onActivated.addListener(async () => {
+chrome.tabs.onActivated.addListener(async (tabId, info, tab) => {
+  console.log("Calling from Activated");
+  store.setValue(getDefaultData());
   sendStartupMessage();
 });
+console.log('panel setup complete')

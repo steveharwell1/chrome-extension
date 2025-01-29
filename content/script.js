@@ -1,3 +1,4 @@
+"use strict";
 function usingCommand(command) {
   return function (func) {
     return function (request, sender, sendResponse) {
@@ -18,7 +19,7 @@ chrome.runtime.onMessage.addListener(
       if(idMatch && idMatch.length > 1 && typeMatch && typeMatch.length > 1) {
        sendResponse({apiURL: `https://www.tamuc.edu/wp-json/wp/v2/${convertType(typeMatch[1])}/${idMatch[1]}`})
       }
-      sendResponse({ apiURL })
+      sendResponse({ apiURL: null })
     } else {
       const apiLink = document.querySelector(
         'link[rel="alternate"][type="application/json"]',
@@ -33,7 +34,7 @@ function convertType(str)
 {
   const chart = {
     post: 'posts',
-    program: 'programs',
+    program: 'program',
     page: 'pages',
     people: 'people',
     guide: 'guides',

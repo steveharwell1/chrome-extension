@@ -1,3 +1,4 @@
+"use strict";
 const tests = [];
 const runTests = async function() {
     return Promise.all(tests.map(func => func()));

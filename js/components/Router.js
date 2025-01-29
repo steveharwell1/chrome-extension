@@ -1,4 +1,6 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import {ifDefined} from '../../node_modules/lit-html/directives/if-defined.js';
+
 export const Router = class Router {
   /** @var array */
   routes = [];
@@ -32,7 +34,7 @@ export const Router = class Router {
         data.store.transformValue(addRouterData(path));
       };
       return html`<a
-        ?current-page=${data.currentPage === path ? "page" : null}
+        aria-current=${ifDefined(data.currentPage === path ? "page" : undefined)}
         @click=${onClick}
         href="${path}"
         >${name}

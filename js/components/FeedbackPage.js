@@ -15,6 +15,15 @@ export const FeedbackPage = (data) => {
       }),
     );
   
+  if (data.tabUrl?.includes("post.php")) {
+    return html`
+      ${Header(data)}
+      <main>
+        <h1>Feedback</h1>
+      </main>
+      <p>Feedback is not available in the editor</p>
+    `;
+  }
   return html`
     ${Header(data)}
     <main>
