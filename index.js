@@ -31,6 +31,7 @@ const getDefaultData = () => {
     store,
     currentPage: "/discussion",
     teamworkData: null,
+    recipients: [],
     router,
     detail: null,
     test: null,
@@ -90,10 +91,12 @@ const startupMessage = async (tab) => {
   const teamworkData = await getCommentData(twId);
   console.log({ teamworkData });
   if (teamworkData) {
+    const recipients = Object.values(teamworkData?.included?.users || {});
     store.transformValue((data) => {
       data.teamworkData = teamworkData;
       data.twId = twId;
       data.tabUrl = tab.url;
+      data.recipients = recipients;
       return data;
     });
   }
@@ -116,4 +119,4 @@ chrome.tabs.onActivated.addListener(async (tabId, info, tab) => {
   store.setValue(getDefaultData());
   sendStartupMessage();
 });
-console.log('panel setup complete')
+console.log("panel setup complete");

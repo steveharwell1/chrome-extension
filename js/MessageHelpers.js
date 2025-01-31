@@ -33,3 +33,4 @@ export const sendMessageHandler = sender => async () => {
         sender(tab)
     }
 };
+

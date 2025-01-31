@@ -1,5 +1,6 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { CommentsList } from "./discussion/CommentsList.js";
+import { RecipientList } from "./discussion/RecipientList.js";
 import { Header } from "./Header.js";
 import { addMessageToTask, getTaskCommentsJSON } from '../NetworkHelpers.js';
 export const DiscussionPage = (data) => {
@@ -9,7 +10,7 @@ export const DiscussionPage = (data) => {
         if(!area) {
             return;
         }
-        await addMessageToTask(data.twId, area.value);
+        await addMessageToTask(data.twId, area.value, data.recipients);
 
         const teamworkData = await getTaskCommentsJSON(data.twId);
         data.store.transformValue((data) => {
@@ -34,14 +35,17 @@ export const DiscussionPage = (data) => {
       ${data?.twId
         ? html`
         <form @submit=${onSubmit}>
-          <textarea>Enter Comment Here</textarea>
+          <textarea placeholder="Leave a comment"></textarea>
           <button type=submit value="submit-comment">Submit</button>
-        <form>
+        </form>
+        ${data.recipients
+            ? RecipientList(data)
+            : null}
         `
         : null}
       <h2>Comments</h2>
       ${data.teamworkData
-        ? CommentsList(data.teamworkData)
+        ? CommentsList(data)
         : html`<p>Loading....</p>`}
     </main>
   `;

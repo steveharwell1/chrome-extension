@@ -31,7 +31,8 @@ export const getTaskData = async (taskId) => {
   ).then((response) => response.json());
 };
 
-export const addMessageToTask = async (taskId, message) => {
+export const addMessageToTask = async (taskId, message, recipients) => {
+    const notify = recipients.map((recipient) => recipient.id);
   const options = postOptions({
     objectId: taskId,
     objectType: "task",
@@ -39,7 +40,7 @@ export const addMessageToTask = async (taskId, message) => {
       body: message,
       //"author-id": userId,
       "content-type": "TEXT",
-      //notify: notifyUserId, //Add empty quotes when no notification is required
+      notify: notify, //Add empty quotes when no notification is required
       "notify-current-user": false,
       skipNotifications: false,
       "remove-other-files": true,

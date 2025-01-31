@@ -18,11 +18,17 @@
     {
       "matches": ["https://www.tamuc.edu/*"],
       "css": ["content/styles.css"],
-      "js": [
-        "content/details.js",
-          "content/tests.js",
-          "content/script.js"
-      ]
+      "js": ["content/details.js", "content/tests.js", "content/script.js"]
     }
-  ]
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y",
+        "chromeos": "Ctrl+Shift+U",
+        "linux": "Ctrl+Shift+J"
+      }
+    }
+  }
 }

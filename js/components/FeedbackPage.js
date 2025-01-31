@@ -1,6 +1,21 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { Header } from "./Header.js";
 import { filterTabsAndOrigin, sendMessageHandler } from "../MessageHelpers.js";
+function getStatusClasses(feedback) {
+    switch(feedback.status) {
+        case "OK": return "feedback-item__marker--passed"; 
+        case "FAIL": return "feedback-item__marker--failed";
+        case "NEUTRAL": return "feedback-item__marker--neutral";
+    }
+}
+
+function getStatusText(feedback) {
+    if(feedback.status === "NEUTRAL") {
+        return ""
+    } else {
+        return feedback.status
+    }
+}
 
 export const FeedbackPage = (data) => {
   const onClick = sendMessageHandler(
@@ -33,7 +48,7 @@ export const FeedbackPage = (data) => {
       ${data.feedback
         ? data.feedback.map(
             (e) =>
-              html`<h2>${e.title} <strong class=${e.status === "OK" ? "feedback-item__marker--passed" : "feedback-item__marker--failed"}>${e.status}</strong></h2>
+              html`<h2>${e.title} <strong class=${getStatusClasses(e)}>${getStatusText(e)}</strong></h2>
                 <p>${e.message}</p>`,
           )
         : null}

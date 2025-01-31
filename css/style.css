@@ -1,24 +1,45 @@
-*, *:before, *:after {
-    box-sizing: border-box;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 nav {
-    display: flex;
-    gap: .5rem
+  display: flex;
+  gap: 0.5rem;
 }
 
 [aria-current="page"] {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 img {
-    max-width: 100%
+  max-width: 100%;
 }
 
 .feedback-item__marker--passed {
-    color: green;
+  color: green;
 }
 
 .feedback-item__marker--failed {
-    color: red;
+  color: red;
+}
+.recipient-list__list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.recipient-list__item {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.recipient-list__img {
+  max-height: 45px;
+  border-radius: 5px;
 }

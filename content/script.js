@@ -5,7 +5,7 @@ function usingCommand(command) {
       if (request.command !== command) {
         return;
       }
-      func(request, sender, sendResponse);
+      return func(request, sender, sendResponse);
     };
   };
 }
