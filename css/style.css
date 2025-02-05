@@ -43,3 +43,7 @@ img {
   max-height: 45px;
   border-radius: 5px;
 }
+
+h1 {
+  color: blue;
+}
