@@ -18,7 +18,7 @@ export const SettingsPage = (data) => {
       <button @click=${onClick}>Set</button>
       <p>Open and close the panel after setting your key.</p>
       <p>
-          <a href="https://support.teamwork.com/projects/using-teamwork/locating-your-api-key">Find your API Key</a>
+          <a target="_blank" href="https://support.teamwork.com/projects/using-teamwork/locating-your-api-key">Find your API Key</a>
       </p>
     </main>
   `;

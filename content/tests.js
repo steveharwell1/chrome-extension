@@ -45,7 +45,7 @@ test("Has Meta Description", async () => {
   } else if ((elem?.content || "").length == 0) {
     return fail("Meta description has no content.");
   }
-  return ok("PASSED");
+  return ok(elem.content);
 });
 
 test("Alt tags", async () => {
