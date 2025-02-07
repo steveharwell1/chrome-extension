@@ -34,7 +34,7 @@ export const DiscussionPage = (data) => {
         : null}
       ${data?.twId
         ? html`
-        <form @submit=${onSubmit}>
+        <form class="comment-field" @submit=${onSubmit}>
           <textarea placeholder="Leave a comment"></textarea>
           <button type=submit value="submit-comment">Submit</button>
         </form>

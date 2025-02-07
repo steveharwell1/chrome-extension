@@ -4,7 +4,7 @@ export const CommentsList = (data) => {
     console.log({data})
     const { comments, included: { users=[] } } = data.teamworkData;
 
-  return html`<ol>
+  return html`<ol class="comment-list">
     ${comments
       ?.map((comment) =>
         CommentItem(data.store, { ...comment, user: users[comment.postedBy] }),
