@@ -26,11 +26,14 @@ const getActiveTab = async () => {
   }
 }
 
-export const sendMessageHandler = sender => async () => {
+export const filterTabsAndOrigin2 = sender => async () => {
     const tab = await getActiveTab();
     console.log('sendMessageHandler', {tab});
-    if(tab) {
-        sender(tab)
+    if(tab && tab.url && tab.url.includes('tamuc.edu')) {
+      //await chrome.sidePanel.setOptions({ enabled: true });
+      sender(tab)
+    } else {
+      //await chrome.sidePanel.setOptions({ enabled: false });
     }
 };
 

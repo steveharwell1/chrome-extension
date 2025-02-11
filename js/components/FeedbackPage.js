@@ -1,6 +1,6 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { Header } from "./Header.js";
-import { filterTabsAndOrigin, sendMessageHandler } from "../MessageHelpers.js";
+import { filterTabsAndOrigin, filterTabsAndOrigin2 } from "../MessageHelpers.js";
 function getStatusClasses(feedback) {
     switch(feedback.status) {
         case "OK": return "feedback-item__marker--passed"; 
@@ -18,7 +18,7 @@ function getStatusText(feedback) {
 }
 
 export const FeedbackPage = (data) => {
-  const onClick = sendMessageHandler(
+  const onClick = filterTabsAndOrigin2(
     filterTabsAndOrigin(async (tab) => {
       const feedback = await chrome.tabs.sendMessage(tab.id, {
         command: "test",

@@ -73,3 +73,12 @@ chrome.runtime.onMessage.addListener(
    return true;
   }),
 );
+
+if (location.href.includes('post.php?post=')) {
+  const elem = document.querySelectorAll('.editor-post-publish-button')
+  elem.forEach((elem) => {
+    elem.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ type: 'open_side_panel' });
+    })
+  })
+}

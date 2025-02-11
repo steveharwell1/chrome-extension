@@ -1,9 +1,9 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { Header } from "./Header.js";
-import { filterTabsAndOrigin, sendMessageHandler } from "../MessageHelpers.js";
+import { filterTabsAndOrigin, filterTabsAndOrigin2 } from "../MessageHelpers.js";
 import { detailsComponentFactory } from "./details/ComponentFactory.js";
 export const DetailsPage = (data) => {
-  const onClick = sendMessageHandler(
+  const onClick = filterTabsAndOrigin2(
     filterTabsAndOrigin(async (tab) => {
       const details = await chrome.tabs.sendMessage(tab.id, {
         command: "detail",

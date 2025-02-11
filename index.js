@@ -8,7 +8,7 @@ import {
 } from "./js/NetworkHelpers.js";
 import {
   filterTabsAndOrigin,
-  sendMessageHandler,
+  filterTabsAndOrigin2,
 } from "./js/MessageHelpers.js";
 import { Router } from "./js/components/Router.js";
 import { DiscussionPage } from "./js/components/DiscussionPage.js";
@@ -102,21 +102,51 @@ const startupMessage = async (tab) => {
   }
 };
 
-const sendStartupMessage = sendMessageHandler(
-  filterTabsAndOrigin(startupMessage),
-);
+const sendStartupMessage = filterTabsAndOrigin2(startupMessage,);
 
 sendStartupMessage();
+let initialTabId = null
+getActiveTab().then(tab => {
+  if(tab) {
+    initialTabId = tab.id
+  }
+})
 
-chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
-  console.log("Calling from updated");
-  store.setValue(getDefaultData());
-  sendStartupMessage();
+
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tabInfo) => {
+  if(changeInfo.status == 'complete' && tabId == initialTabId) {
+    console.log("Calling from updated");
+      console.log("Update Info", {tabId, changeInfo, tabInfo})
+    store.setValue(getDefaultData());
+    sendStartupMessage();
+  }
 });
 
-chrome.tabs.onActivated.addListener(async (tabId, info, tab) => {
-  console.log("Calling from Activated");
-  store.setValue(getDefaultData());
-  sendStartupMessage();
-});
+async function getActiveTab () {
+  try {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      lastFocusedWindow: true,
+    });
+      return tab;
+  } catch (error) {
+    console.log("error trying to get active tab", { error });
+      return null;
+  }
+}
+
+// Called when the active tab is changed
+// chrome.tabs.onActivated.addListener(async ({tabId}) => {
+//   console.log("Calling from Activated");
+//   var tabInfo = await getActiveTab()
+//   console.log("Activate Info", {tabId, tabInfo})
+//   if (tabInfo?.url?.includes('tamuc.edu')) {
+//     //await chrome.sidePanel.setOptions({ tabId, enabled: true });
+//     store.setValue(getDefaultData());
+//     sendStartupMessage();
+//   } else {
+//     //await chrome.sidePanel.setOptions({ tabId, enabled: false });
+//   }
+// });
+
 console.log("panel setup complete");
