@@ -6,7 +6,7 @@ import { addMessageToTask, getTaskCommentsJSON } from '../NetworkHelpers.js';
 export const DiscussionPage = (data) => {
     const onSubmit = async (e) => {
         e.preventDefault();
-        const area = e.currentTarget.querySelector('textarea');
+        const area = document.querySelector('.js-comment-field__input');
         if(!area) {
             return;
         }
@@ -19,34 +19,42 @@ export const DiscussionPage = (data) => {
         });
         area.value = '';
     }
+    const clearAll = data.store.transformValueHOF((data) => {
+      data.recipients = []
+      return data
+  })
 
     console.log(data.teamworkData)
   return html`
     ${Header(data)}
     <main>
-      <h1>Discussion</h1>
+      <h1>Discussion on Teamwork</h1>
       ${data?.twId
-        ? html`<a
+        ? html`<a class="open-card"
             href="https://tamuc.teamwork.com/app/tasks/${data?.twId}"
             target="_blank"
-            >Go to Teamwork</a
+            >Open Card in New Tab</a
           >`
         : null}
       ${data?.twId
         ? html`
-        <form @submit=${onSubmit}>
-          <textarea placeholder="Leave a comment"></textarea>
-          <button type=submit value="submit-comment">Submit</button>
-        </form>
-        ${data.recipients
-            ? RecipientList(data)
-            : null}
-        `
+        <form class="comment-field" @submit=${onSubmit}>
+          <textarea class="js-comment-field__input" placeholder="Add your comment here"></textarea>
+         
+         </form> 
+          Who should be notified? <button class="clear-recipients-list" @click=${clearAll}>(Remove All)</button>
+          ${data.recipients
+          ? RecipientList(data)
+          : null}
+          `
         : null}
+         <button @click=${onSubmit} type=submit value="submit-comment">Submit</button>
       <h2>Comments</h2>
       ${data.teamworkData
         ? CommentsList(data)
         : html`<p>Loading....</p>`}
+
+        
     </main>
   `;
 };
